@@ -1,11 +1,37 @@
-# XLeRobot 校准备份索引
+# XLeRobot Calibration Backup System
 
-| 日期 | 事件 | 目录 |
-|------|------|------|
-| 2026-07-21 | 左臂驱动板更换 + 14电机完整校准 | `20260721_left_arm_replacement/` |
-| (历史) | 旧校准 | 见 Pi `~/robot_code/calibration_backup_*` |
+## Version Index
 
-## 脚本
-- `v4_scripts/calibrate_v4.py`: 2026-07-21 使用的引导校准脚本
-  - 交互式，每关节两步（中点定位→全程摇动）
-  - 不写 EEPROM range，仅存 JSON
+| Date | Version | Event | Calibrated | Git |
+|------|---------|-------|------------|-----|
+| 2026-07-21 | **v4** (ACTIVE) | Left arm driver board replacement | 14 motors (L6+H2+R6) | `af0e413` |
+| 2026-07-14 | v2 | First full calibration | 17 motors (L6+H2+R6+B3) | - |
+| 2026-07-14 | v1 | Factory defaults | None | - |
+
+## Directory Structure
+```
+config/calibration/
+├── README.md                         ← This file (version index)
+├── CHANGELOG.md                      ← Full changelog with diffs
+├── 20260721_left_arm_replacement/    ← v4 calibration
+│   ├── README.md                     ← Session-specific notes
+│   └── calibration_active.json       ← Current active calibration
+├── v4_scripts/
+│   └── calibrate_v4.py               ← Calibration script used
+└── v4_diffs/
+    └── (auto-generated via diff_helper.sh)
+```
+
+## Scripts in this repo
+| Path | Description |
+|------|-------------|
+| `software/examples/calibrate_v4.py` | Interactive calibration script (14 motors) |
+| `scripts/calibrate_diffs.sh` | Diff helper - compare calibration versions |
+
+## Pi Container Sync
+| Item | Container Path |
+|------|---------------|
+| Active calibration | `/root/.cache/huggingface/lerobot/calibration/robots/xlerobot/None.json` |
+| Calibration script | `/root/calibrate_v4.py` |
+| README | `/root/calibration_README.md` |
+| Changelog | `/root/calibration_CHANGELOG.md` |
